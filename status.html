@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=0.8" />
+		$(if refresh-timeout)
+		<meta http-equiv="refresh" content="$(refresh-timeout-secs)">
+		$(endif)
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="expires" content="-1">
+
+		<title>Abupolka - Status</title>
+
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link href="css/animate.css" rel="stylesheet" type="text/css" />
+
+		<script src="js/jquery.min.js" type="text/javascript"></script>
+		<script type="text/javascript">
+		<!--
+			function openLogout() {
+				if (window.name != 'hotspot_status') return true;
+				open('$(link-logout)', 'hotspot_logout', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=280,height=250');
+				window.close();
+				return false;
+			}
+		//-->
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="top">
+				<h1 id="title" class="hidden"><span id="logo"><img src="img/logo.png" /><br />MY INTERNET HOTSPOT</span></h1>
+			</div>
+			<div class="login-box animated fadeIn">
+				<form action="$(link-logout)" name="logout" onSubmit="return openLogout()">
+					<div class="box-header">
+						<h2>HOTSPOT STATUS</h2>
+					</div>
+					<table>
+						$(if login-by == 'trial')
+						<div style="text-align: center;">Hello!</div>
+						$(elif login-by != 'mac')
+						<div style="text-align: center;">Hello $(username)!</div>
+						$(endif)
+						<tr><td class="left bold">IP Address</td><td class="right">$(ip)</td></tr>
+						<tr><td class="left bold">Bytes Up/Down</td><td class="right">$(bytes-in-nice)/$(bytes-out-nice)</td></tr>
+						$(if session-time-left)
+						<tr><td class="left bold">Connected/Left</td><td class="right">$(uptime)/$(session-time-left)</td></tr>
+						$(else)
+						<tr><td class="left bold">Connected</td><td class="right">$(uptime)</td></tr>
+						$(endif)
+						$(if blocked == 'yes')
+						<tr><td class="left bold">Status</td><td class="right"><div style="color: #FF8080">
+						<a href="$(link-advert)" target="hotspot_advert">Advertisement</a> required</div></td></tr>
+						$(elif refresh-timeout)
+						<tr><td class="left bold">Status Refresh</td><td class="right">$(refresh-timeout)</td></tr>
+						$(endif)
+					</table>
+					$(if login-by-mac != 'yes')
+					<br>
+					<!-- user manager link. if user manager resides on other router, replace $(hostname) by its address
+					<button onclick="document.location='http://$(hostname)/user?subs='; return false;">status</button>
+					<!-- end of user manager link -->
+					<button type="submit">Logout</button>
+					$(endif)
+				</form>
+			</div>
+			<div class="copyright">©2020 bogalakon.com</div>
+		</div>
+	</body>
+	<script>
+		$(document).ready(function () {
+			$('#logo, .copyright').addClass('animated fadeIn');
+		});
+	</script>
+</html>
